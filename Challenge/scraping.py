@@ -13,7 +13,7 @@ def scrape_all():
     browser = Browser('chrome', **executable_path, headless=True)
 
     news_title, news_paragraph = mars_news(browser)
-    hemispheres = mars_hemis(browser)
+    
 
     #Run all scraping functions and store results in a dictionary
     data = {
@@ -22,7 +22,7 @@ def scrape_all():
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
         "last_modified": dt.datetime.now(),
-        "hemisphere": hemispheres
+        "hemispheres": hemispheres(browser)
     }
     
 
@@ -110,28 +110,48 @@ def mars_facts():
 
 ### Mars Hemisphere Images
 
-def mars_hemis(browser):
+def hemispheres(browser):
+    url = 'https://marshemispheres.com/'
+
+    browser.visit(url)
+
     hemisphere_image_urls = []
+    for page in range(4):
+        hemispheres = {}
 
-    try:
-        for page in range(0, 4):
-            hemispheres = {}
-            thumblink = browser.find_by_tag("h3")[page] 
-            thumblink.click()
-            
-            html = browser.html
-            news_soup = soup(html, 'html.parser')
-            
-            img_url_rel = news_soup.find('a', href=True, text="Sample").get('href')
-            img_url = f'https://marshemispheres.com/{img_url_rel}'
-            title = browser.find_by_tag("h2").text
-            hemispheres['img_url'] = img_url
-            hemispheres['title'] = title
-            hemisphere_image_urls.append(hemispheres)
-            browser.back()
+        thumblink = browser.find_by_tag("h3")[page] 
+        thumblink.click()
+        
+        html = browser.html
+        news_soup = soup(html, 'html.parser')
+        
+        img_url_rel = news_soup.find('a', href=True, text="Sample").get('href')
+        img_url = f'https://marshemispheres.com/{img_url_rel}'
+        title = browser.find_by_tag("h2").text
+        hemispheres['img_url'] = img_url
+        hemispheres['title'] = title
+        hemisphere_image_urls.append(hemispheres)
+        browser.back()
+    # try:
+    # for page in range(0, 4):
+    #     hemispheres = {}
+    #     thumblink = browser.find_by_tag("h3")[page] 
+    #     thumblink.click()
+        
+    #     html = browser.html
+    #     news_soup = soup(html, 'html.parser')
+        
+    #     img_url_rel = news_soup.find('a', href=True, text="Sample").get('href')
+    #     img_url = f'https://marshemispheres.com/{img_url_rel}'
+    #     title = news_soup.find_by_tag("h2").text
+    #     hemispheres['img_url'] = img_url
+    #     hemispheres['title'] = title
+    #     hemisphere_image_urls.append(hemispheres)
+    #     browser.back()
 
-    except BaseException:
-        return None
+    # except AttributeError:
+    #     img_url_rel = None
+    #     title = None
 
     return hemisphere_image_urls
 
