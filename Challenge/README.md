@@ -20,8 +20,10 @@ Creating the code did present some problems requiring troubleshooting.
 
 ## Deliverable Images
 Final Jupyter Notebook code to retrieve image urls and titles as a list of dictionaries.
+![Deliverable_1](https://user-images.githubusercontent.com/106561880/185507575-636ed081-99b0-43fe-8b65-c7442d03fae2.png)
 
 Hemispherical images scraped and added to HTML file.
+![Deliverable_2](https://user-images.githubusercontent.com/106561880/185507583-5584b22a-bf36-499b-8cbe-c777f471ecc7.png)
 
 ## Additional Enhancements
 Code was added to beautify the page, including:
